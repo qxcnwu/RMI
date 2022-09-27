@@ -33,12 +33,6 @@ public class ExecRunable implements Callable<Message> {
      */
     @Override
     public Message call() {
-        final Method method = Exec.getMethod(msg.getMethodHash());
-        if (method == null) {
-            msg.setAns(null);
-            msg.setMsg("No such method");
-            return msg;
-        }
         /*
           Available use method
          */

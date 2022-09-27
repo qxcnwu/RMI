@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import pojo.Message;
 import pojo.NetAddr;
 
+import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -123,7 +124,15 @@ class DoMain extends ChannelInboundHandlerAdapter {
             return;
         }
         try {
+            /**
+             * 获取客户端ip稍后园路发送
+             */
+            InetSocketAddress ipSocket = (InetSocketAddress)ctx.channel().remoteAddress();
+            String clientIp = ipSocket.getAddress().getHostAddress();
+            log.info("客户端ip地址：{}",clientIp);
             Message ms = (Message) msg;
+            ms.getClient().setIp(clientIp);
+
             ms.encodeMap();
             ExectorTools.getInstance(16).add(ms);
         } catch (ClassCastException ex) {
